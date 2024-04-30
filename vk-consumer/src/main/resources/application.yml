@@ -1,5 +1,5 @@
 server:
-  port: 11111
+  port: 22222
 
 spring:
   kafka:
@@ -16,7 +16,7 @@ spring:
     driver-class-name: org.postgresql.Driver
 logging:
   file:
-    name: ok_logs.log
+    name: vk_logs.log
 
 scheduler:
   enabled: true

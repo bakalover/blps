@@ -87,7 +87,7 @@ public class ImageService {
                     }
 
                     var id = savedImage.get().getId();
-//                    kafkaSender.send(id, 0);    // VK
+                    kafkaSender.send(id, 0);    // VK
                     kafkaSender.send(id, 1);    // OK
                 } catch (IOException e) {
                     status.setRollbackOnly();

@@ -3,7 +3,6 @@ plugins {
     id("org.springframework.boot") version "3.2.3"
     id("io.spring.dependency-management") version "1.1.4"
     id("io.freefair.lombok") version "8.4"
-//	id("com.intershop.gradle.jaxb") version "6.0.0"
 }
 
 group = "com.example"
