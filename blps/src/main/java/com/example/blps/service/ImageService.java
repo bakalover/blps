@@ -1,5 +1,6 @@
 package com.example.blps.service;
 
+import com.example.blps.kafka.KafkaSender;
 import com.example.blps.repo.*;
 import com.example.blps.repo.entity.Album;
 import com.example.blps.repo.entity.Comment;
@@ -39,7 +40,11 @@ public class ImageService {
     @Autowired
     private ComplaintRepository complaintRepository;
 
+    @Autowired
+    private KafkaSender kafkaSender;
+
     private final TransactionTemplate transactionTemplate;
+
 
     @SuppressWarnings("null")
     @Autowired
@@ -56,13 +61,15 @@ public class ImageService {
             @Override
             protected void doInTransactionWithoutResult(@SuppressWarnings("null") TransactionStatus status) {
                 try {
-                    var imageDao = new Image();
+                    var newImage = new Image();
                     var album = albumRepository.findById(albumId).orElseThrow();
 
-                    imageDao.setAlbum(album);
-                    imageDao.setName(file.getOriginalFilename());
-                    imageDao.setData(file.getBytes());
-                    imageDao.setFace(face);
+                    newImage.setAlbum(album);
+                    newImage.setName(file.getOriginalFilename());
+                    newImage.setData(file.getBytes());
+                    newImage.setFace(face);
+                    newImage.setVkLikes(0);
+                    newImage.setOkLikes(0);
 
                     var images = imageRepository.findByAlbum(album);
                     images.forEach(image -> {
@@ -71,7 +78,17 @@ public class ImageService {
                             imageRepository.save(image);
                         }
                     });
-                    imageRepository.save(imageDao);
+
+                    imageRepository.save(newImage);
+                    var savedImage = imageRepository.findFirstByOrderByIdDesc();
+
+                    if (savedImage.isEmpty()) {
+                        throw new NoSuchElementException("Cannot restore image before sending to outsource");
+                    }
+
+                    var id = savedImage.get().getId();
+                    kafkaSender.send(id, 0);    // VK
+                    kafkaSender.send(id, 1);    // OK
                 } catch (IOException e) {
                     status.setRollbackOnly();
                     throw new TransactionException("Cannot read image!\n");

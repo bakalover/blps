@@ -61,7 +61,7 @@ javax:
 
 logging:
   file:
-    name: app_logs.log
+    name: blps_logs.log
 
 scheduler:
   enabled: true

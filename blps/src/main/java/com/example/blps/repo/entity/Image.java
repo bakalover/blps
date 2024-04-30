@@ -27,6 +27,12 @@ public class Image {
     @Column(name = "face", nullable = false)
     private Boolean face;
 
+    @Column(name = "vk_likes", nullable = false)
+    private Integer vkLikes;
+
+    @Column(name = "ok_likes", nullable = false)
+    private Integer okLikes;
+
     @JsonIgnore
     @Column(name = "data", nullable = false)
     private byte[] data;

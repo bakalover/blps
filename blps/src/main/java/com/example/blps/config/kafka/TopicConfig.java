@@ -7,10 +7,8 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class TopicConfig {
-
     @Bean
     public NewTopic topic() {
-        return TopicBuilder.name("topic-0").partitions(2).build();
+        return TopicBuilder.name("topic-outsource-images").partitions(2).build();
     }
-
 }

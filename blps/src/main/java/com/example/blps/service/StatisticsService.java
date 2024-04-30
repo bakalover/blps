@@ -2,6 +2,7 @@ package com.example.blps.service;
 
 import com.example.blps.repo.StatisticsRepository;
 import com.example.blps.repo.UserRepository;
+import com.example.blps.repo.entity.Image;
 import com.example.blps.repo.entity.Statistics;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -42,14 +43,19 @@ public class StatisticsService {
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
             @Override
             protected void doInTransactionWithoutResult(@NonNull TransactionStatus status) {
-                userRepository.findAll().forEach(userDao -> {
-                    statisticsRepository.deleteByUsername(userDao.getUsername());
-                    var statistics = new Statistics();
-                    var albums = userDao.getAlbums();
-                    statistics.setUsername(userDao.getUsername());
+                userRepository.findAll().forEach(user -> {
+                    var opt = statisticsRepository.findByUsername(user.getUsername());
+                    var statistics = opt.orElseGet(Statistics::new);
+                    var albums = user.getAlbums();
+                    var images = albums.stream().flatMap(a -> a.getImages().stream()).toList();
+                    var vkLikesTotal = images.stream().mapToInt(Image::getVkLikes).sum();
+                    var okLikesTotal = images.stream().mapToInt(Image::getOkLikes).sum();
+
+                    statistics.setUsername(user.getUsername());
                     statistics.setAlbumCount(albums.size());
-                    var totalImageCount = albums.stream().mapToInt(albumDao -> albumDao.getImages().size()).sum();
-                    statistics.setImageCount(totalImageCount);
+                    statistics.setImageCount(images.size());
+                    statistics.setVkLikesCount(vkLikesTotal);
+                    statistics.setOkLikesCount(okLikesTotal);
                     statisticsRepository.save(statistics);
                 });
             }

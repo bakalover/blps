@@ -22,4 +22,10 @@ public class Statistics {
 
     @Column(name = "image_count", nullable = false)
     private Integer imageCount;
+
+    @Column(name = "vk_likes_count", nullable = false)
+    private Integer vkLikesCount;
+
+    @Column(name = "ok_likes_count", nullable = false)
+    private Integer okLikesCount;
 }

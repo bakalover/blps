@@ -1,0 +1,32 @@
+server:
+  port: 11111
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+  jpa: # I hate Spring
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: create-drop
+  datasource:
+    album:
+      url: ${JDBC_URL}
+      username: ${PG_LOGIN}
+      password: ${PG_PASS}
+      driver-class-name: org.postgresql.Driver
+
+hibernate:
+  dialect: org.hibernate.dialect.PostgreSQLDialect
+  show_sql: true
+  temp:
+    use_jdbc_metadata_defaults: false
+
+
+logging:
+  file:
+    name: vk_logs.log
+
+scheduler:
+  enabled: true
+

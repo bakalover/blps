@@ -11,21 +11,23 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class LogService {
+public class LogCleaningService {
 
-    @Scheduled(fixedRate = 10000)
+    private final Integer lines = 20;
+
+    @Scheduled(fixedRate = 7000)
     @Async
     public void cleanLogs() {
         try {
-            var logFilePath = "./app_logs.log";
+            var logFilePath = "./blps_logs.log";
             File logFile = new File(logFilePath);
             if (logFile.exists() && logFile.length() > 0) {
                 List<String> lastLines = new ArrayList<>();
                 try (BufferedReader reader = new BufferedReader(new FileReader(logFile))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        if (lastLines.size() >= 10) {
-                            lastLines.remove(0); // Remove the first line to keep only the last 10
+                        if (lastLines.size() >= lines) {
+                            lastLines.remove(0);
                         }
                         lastLines.add(line);
                     }
