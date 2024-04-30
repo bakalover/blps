@@ -12,7 +12,7 @@ public class KafkaSender {
     @Autowired
     private KafkaTemplate<String, Long> kafkaTemplate;
 
-    private final String topicName = "topic-outsource-images";
+    private final String topicName = "topic-images";
 
     public void send(Long what, Integer partition) {
         log.info("Sending: {} to partition: {}", what, partition);

@@ -1,4 +1,4 @@
-package com.example.blps.config.kafka;
+package com.example.ok.config.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +9,6 @@ import org.springframework.kafka.config.TopicBuilder;
 public class TopicConfig {
     @Bean
     public NewTopic topic() {
-        return TopicBuilder.name("topic-images").partitions(2).build();
+        return TopicBuilder.name("topic-likes").partitions(2).build();
     }
 }

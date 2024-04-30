@@ -26,6 +26,7 @@ dependencies {
 //    implementation("jakarta.xml.bind:jakarta.xml.bind-api:3.0.0")
 //    implementation("com.sun.xml.bind:jaxb-impl:3.0.0")
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

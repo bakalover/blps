@@ -18,14 +18,10 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("com.atomikos:transactions-spring-boot3-starter:6.0.0")
     implementation("org.postgresql:postgresql")
-//    implementation("jakarta.xml.bind:jakarta.xml.bind-api:3.0.0")
-//    implementation("com.sun.xml.bind:jaxb-impl:3.0.0")
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("com.fasterxml.jackson.core:jackson-databind")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
