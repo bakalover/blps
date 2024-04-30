@@ -38,4 +38,7 @@ out/
 *.lck
 *.gz
 *.log
-.gradle/
+ok-consumer/.gradle
+vk-consumer/.gradle
+mm/
+
