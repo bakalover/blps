@@ -2,16 +2,14 @@ package com.example.blps.service;
 
 import com.example.blps.repo.AlbumRepository;
 import com.example.blps.repo.ImageRepository;
-import com.example.blps.repo.UserRepository;
 import com.example.blps.repo.entity.Album;
 import com.example.blps.repo.entity.Image;
-import com.example.blps.repo.request.AlbumBody;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -21,17 +19,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service("album_service")
+@Slf4j
 public class AlbumService {
 
-    private final TransactionTemplate transactionTemplate;
-
-    @SuppressWarnings("null")
     @Autowired
-    public AlbumService(PlatformTransactionManager transactionManager) {
-        this.transactionTemplate = new TransactionTemplate(transactionManager);
-        this.transactionTemplate.setTimeout(1);
-        this.transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
-    }
+    @Qualifier("transactionTemplate")
+    private TransactionTemplate transactionTemplate;
 
     @Autowired
     private AlbumRepository albumRepository;
@@ -39,19 +32,20 @@ public class AlbumService {
     @Autowired
     private ImageRepository imageRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
-    public void addNewAlbum(AlbumBody album) throws IllegalArgumentException {
-        if (!albumRepository.findByName(album.getName()).isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-        var albumDao = new Album();
-        albumDao.setDescription(album.getDescription());
-        albumDao.setName(album.getName());
-        albumDao.setRestrictMode(album.getRestrictMode());
-        albumDao.setUser(userRepository.findByUsername(album.getUsername()).get());
-        albumRepository.save(albumDao);
+    public void addNewAlbum(String name, String description, String username) {
+        log.info("Альбом: {}", name);
+        transactionTemplate.execute(status -> {
+            if (!albumRepository.findByName(name).isEmpty()) {
+                throw new IllegalArgumentException();
+            }
+            var albumDao = new Album();
+            albumDao.setDescription(description);
+            albumDao.setName(name);
+            albumDao.setUsername(username);
+            albumRepository.save(albumDao);
+            return null;
+        });
     }
 
     public void deleteAlbumById(@NonNull Long id) throws NoSuchElementException {

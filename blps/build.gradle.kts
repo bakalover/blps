@@ -20,13 +20,15 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("com.atomikos:transactions-spring-boot3-starter:6.0.0")
     implementation("org.postgresql:postgresql")
-//    implementation("jakarta.xml.bind:jakarta.xml.bind-api:3.0.0")
-//    implementation("com.sun.xml.bind:jaxb-impl:3.0.0")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("com.fasterxml.jackson.core:jackson-databind")
+    implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-rest:7.21.0")
+    implementation("org.camunda.bpm.springboot:camunda-bpm-spring-boot-starter-webapp:7.21.0")
+    implementation("org.camunda.bpm:camunda-engine-plugin-spin:7.21.0")
+    implementation("org.camunda.spin:camunda-spin-dataformat-all:1.23.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

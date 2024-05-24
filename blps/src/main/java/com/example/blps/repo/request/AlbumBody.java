@@ -1,6 +1,5 @@
 package com.example.blps.repo.request;
 
-import com.example.blps.repo.UserRestriction;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -14,7 +13,4 @@ public class AlbumBody {
 
     @NonNull
     private String username;
-
-    @NonNull
-    private UserRestriction restrictMode;
 }

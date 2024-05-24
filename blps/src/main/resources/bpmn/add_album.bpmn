@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_04gds62" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.22.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_1cl32bs">
+    <bpmn:participant id="Participant_1cfu1h2" name="Strana Mam" processRef="AddAlbum" />
+  </bpmn:collaboration>
+  <bpmn:process id="AddAlbum" isExecutable="true" camunda:historyTimeToLive="1">
+    <bpmn:laneSet id="LaneSet_0n09n5i">
+      <bpmn:lane id="Lane_0edl6ti" name="Client">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_130nvfs</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0k0ysnk</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_0j54afc" name="Server">
+        <bpmn:flowNodeRef>Activity_0ng3i6s</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1eg1ijh</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_130nvfs" name="Заполнение описания" camunda:formKey="camunda-forms:/forms/add_album.form">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_1eg1ijh</bpmn:incoming>
+      <bpmn:outgoing>Flow_0gtxfgu</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_1eg1ijh" sourceRef="StartEvent_1" targetRef="Activity_130nvfs" />
+    <bpmn:sequenceFlow id="Flow_0gtxfgu" sourceRef="Activity_130nvfs" targetRef="Activity_0ng3i6s" />
+    <bpmn:sequenceFlow id="Flow_0145dv6" sourceRef="Activity_0ng3i6s" targetRef="Activity_0k0ysnk" />
+    <bpmn:userTask id="Activity_0k0ysnk" name="Результат" camunda:formKey="camunda-forms:/forms/result.form">
+      <bpmn:incoming>Flow_0145dv6</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_0ng3i6s" name="Обработка запроса" camunda:delegateExpression="#{addAlbumRequestProcessor}">
+      <bpmn:incoming>Flow_0gtxfgu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0145dv6</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0k81a4r">
+        <bpmn:targetRef>DataStoreReference_1ko5ew6</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:dataStoreReference id="DataStoreReference_1ko5ew6" name="Albums" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1cl32bs">
+      <bpmndi:BPMNShape id="Participant_1cfu1h2_di" bpmnElement="Participant_1cfu1h2" isHorizontal="true">
+        <dc:Bounds x="160" y="90" width="710" height="330" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0j54afc_di" bpmnElement="Lane_0j54afc" isHorizontal="true">
+        <dc:Bounds x="190" y="264" width="680" height="156" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0edl6ti_di" bpmnElement="Lane_0edl6ti" isHorizontal="true">
+        <dc:Bounds x="190" y="90" width="680" height="174" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="239" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_130nvfs_di" bpmnElement="Activity_130nvfs">
+        <dc:Bounds x="330" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1jdaeop" bpmnElement="Activity_0k0ysnk">
+        <dc:Bounds x="610" y="137" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ng3i6s_di" bpmnElement="Activity_0ng3i6s">
+        <dc:Bounds x="450" y="280" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_1ko5ew6_di" bpmnElement="DataStoreReference_1ko5ew6">
+        <dc:Bounds x="675" y="335" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="681" y="392" width="38" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1eg1ijh_di" bpmnElement="Flow_1eg1ijh">
+        <di:waypoint x="275" y="177" />
+        <di:waypoint x="330" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0gtxfgu_di" bpmnElement="Flow_0gtxfgu">
+        <di:waypoint x="380" y="217" />
+        <di:waypoint x="380" y="320" />
+        <di:waypoint x="450" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0145dv6_di" bpmnElement="Flow_0145dv6">
+        <di:waypoint x="550" y="320" />
+        <di:waypoint x="575" y="320" />
+        <di:waypoint x="575" y="177" />
+        <di:waypoint x="610" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0k81a4r_di" bpmnElement="DataOutputAssociation_0k81a4r">
+        <di:waypoint x="550" y="330" />
+        <di:waypoint x="675" y="356" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

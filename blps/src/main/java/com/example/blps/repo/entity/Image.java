@@ -1,6 +1,5 @@
 package com.example.blps.repo.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -32,10 +31,6 @@ public class Image {
 
     @Column(name = "ok_likes", nullable = false)
     private Integer okLikes;
-
-    @JsonIgnore
-    @Column(name = "data", nullable = false)
-    private byte[] data;
 
     @ManyToOne
     @JoinColumn(name = "album_id", nullable = false)

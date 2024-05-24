@@ -1,0 +1,82 @@
+{
+  "components": [
+    {
+      "text": "# Описание изображения",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_06a8kv4",
+        "columns": null
+      },
+      "id": "Field_1a1qrcb"
+    },
+    {
+      "label": "Название альбома",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ra4s2k",
+        "columns": null
+      },
+      "id": "Field_0jc0y6o",
+      "key": "album_name",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Название картинки",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0ile499",
+        "columns": null
+      },
+      "id": "Field_0gbklwz",
+      "key": "image_name",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "values": [
+        {
+          "label": "Да",
+          "value": "true"
+        },
+        {
+          "label": "Нет",
+          "value": "false"
+        }
+      ],
+      "label": "Назначить обложкой?",
+      "type": "select",
+      "layout": {
+        "row": "Row_0mc148l",
+        "columns": null
+      },
+      "id": "Field_06zcbn9",
+      "key": "is_face",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Add Image",
+      "type": "button",
+      "layout": {
+        "row": "Row_15almv3",
+        "columns": null
+      },
+      "id": "Field_0ynm040"
+    }
+  ],
+  "type": "default",
+  "id": "Form_13rkdg8",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

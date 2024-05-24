@@ -1,12 +1,9 @@
 package com.example.blps.repo.entity;
 
-import com.example.blps.repo.UserRestriction;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +24,8 @@ public class Album {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "restrict_mode", nullable = false)
-    private UserRestriction restrictMode;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private User user;
+    @Column(name = "username", nullable = false)
+    private String username;
 
     @OneToMany(mappedBy = "album", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("album")

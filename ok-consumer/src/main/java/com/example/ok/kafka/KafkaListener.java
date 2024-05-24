@@ -4,6 +4,7 @@ import com.example.ok.repo.IdRepository;
 import com.example.ok.repo.entity.Id;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.TopicPartition;
 import org.springframework.stereotype.Component;
 
@@ -13,14 +14,20 @@ public class KafkaListener {
     @Autowired
     private IdRepository idRepository;
 
+    @Value("${CONS_ID}")
+    private Long consId;
+
     @org.springframework.kafka.annotation.KafkaListener(groupId = "group-social", topicPartitions
             = @TopicPartition(topic = "topic-images", partitions = {"1"}))
     void listenConsume(Long imageId) {
-        if (idRepository.findById(imageId).isPresent()) {
-            idRepository.deleteById(imageId);
+        if (idRepository.findById(imageId).isEmpty()) {
+            var id = new Id();
+            id.setId(imageId);
+            id.setConsId(consId);
+            try {
+                idRepository.save(id);
+            } catch (Exception e) {
+            }
         }
-        var id = new Id();
-        id.setId(imageId);
-        idRepository.save(id);
     }
 }

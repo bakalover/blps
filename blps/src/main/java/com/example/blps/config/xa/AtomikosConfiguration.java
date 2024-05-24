@@ -1,68 +1,46 @@
 package com.example.blps.config.xa;
 
+import com.atomikos.icatch.jta.TransactionSynchronizationRegistryImp;
 import com.atomikos.icatch.jta.UserTransactionImp;
 import com.atomikos.icatch.jta.UserTransactionManager;
-import jakarta.transaction.TransactionManager;
-import jakarta.transaction.UserTransaction;
+import com.atomikos.spring.AtomikosDataSourceBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.orm.jpa.JpaVendorAdapter;
-import org.springframework.orm.jpa.vendor.Database;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.retry.annotation.EnableRetry;
 import org.springframework.transaction.jta.JtaTransactionManager;
+import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.sql.DataSource;
+
+import static org.springframework.transaction.TransactionDefinition.ISOLATION_SERIALIZABLE;
+import static org.springframework.transaction.TransactionDefinition.PROPAGATION_REQUIRES_NEW;
 
 @Configuration
-@EnableTransactionManagement
+@EnableRetry
 public class AtomikosConfiguration {
 
+    @Bean(name = "transactionTemplate")
+    public TransactionTemplate transactionTemplate() {
+        TransactionTemplate template = new TransactionTemplate(transactionManager());
+        template.setIsolationLevel(ISOLATION_SERIALIZABLE);
+        template.setPropagationBehavior(PROPAGATION_REQUIRES_NEW);
+        return template;
+    }
+
+
     @Bean
-    public PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
+    public JtaTransactionManager transactionManager() {
+        JtaTransactionManager jtaTransactionManager = new JtaTransactionManager();
+        jtaTransactionManager.setUserTransaction(new UserTransactionImp());
+        jtaTransactionManager.setTransactionManager(new UserTransactionManager());
+        jtaTransactionManager.setTransactionSynchronizationRegistry(new TransactionSynchronizationRegistryImp());
+        jtaTransactionManager.setAllowCustomIsolationLevels(true);
+        return jtaTransactionManager;
     }
 
     @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(true);
-        hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
-        return hibernateJpaVendorAdapter;
+    public DataSource dataSource() {
+        return new AtomikosDataSourceBean();
     }
-
-    @Bean(name = "userTransaction")
-    public UserTransaction userTransaction() throws Throwable {
-        UserTransactionImp userTransactionImp = new UserTransactionImp();
-        userTransactionImp.setTransactionTimeout(20);
-        return userTransactionImp;
-    }
-
-    @Bean(name = "atomikosTransactionManager", initMethod = "init", destroyMethod = "close")
-    public TransactionManager atomikosTransactionManager() {
-        UserTransactionManager userTransactionManager = new UserTransactionManager();
-        userTransactionManager.setForceShutdown(false);
-
-        AtomikosJtaPlatform.transactionManager = userTransactionManager;
-
-        return userTransactionManager;
-    }
-
-    @Bean(name = "bakaloverTransactionManager")
-    @DependsOn({"userTransaction", "atomikosTransactionManager"})
-    public PlatformTransactionManager transactionManager() throws Throwable {
-        UserTransaction userTransaction = userTransaction();
-
-        AtomikosJtaPlatform.transaction = userTransaction;
-
-        TransactionManager atomikosTransactionManager = atomikosTransactionManager();
-        var manager = new JtaTransactionManager(userTransaction, atomikosTransactionManager);
-        manager.setAllowCustomIsolationLevels(true);
-
-        return manager;
-    }
-
 
 }

@@ -11,5 +11,4 @@ public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
     Optional<Statistics> findByUsername(String username);
 
     void deleteByUsername(String username);
-
 }

@@ -1,0 +1,50 @@
+{
+  "components": [
+    {
+      "label": "Name",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_0e8j2cs",
+        "columns": null
+      },
+      "id": "Field_00tz5rt",
+      "key": "album_name",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Description",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1imf5za",
+        "columns": null
+      },
+      "id": "Field_1mjx5r3",
+      "key": "album_description",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Add",
+      "type": "button",
+      "layout": {
+        "row": "Row_1c0juf5",
+        "columns": null
+      },
+      "id": "Field_12dwgeq"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1aecyoh",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "schemaVersion": 16
+}

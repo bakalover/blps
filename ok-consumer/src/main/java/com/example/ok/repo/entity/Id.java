@@ -12,4 +12,7 @@ public class Id {
     @jakarta.persistence.Id
     @Column(name = "image_id")
     private Long id;
+
+    @Column(name = "cons_id")
+    private Long consId;
 }

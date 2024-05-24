@@ -4,6 +4,7 @@ import com.example.ok.kafka.KafkaSender;
 import com.example.ok.repo.IdRepository;
 import com.example.ok.repo.entity.KafkaLikes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class LikeService {
     @Autowired
     private KafkaSender kafkaSender;
 
+    @Value("${CONS_ID}")
+    private Long consId;
+
     private final Random twister = new Random();
 
     @Scheduled(fixedRate = 5000)
@@ -30,7 +34,9 @@ public class LikeService {
             kl.setServiceType("ok");
             kl.setImageId(id.getId());
             kl.setLikeDelta(twister.nextInt(1, 10));
-            kafkaSender.send(kl);
+            if (id.getConsId() == consId) {
+                kafkaSender.send(kl);
+            }
         });
     }
 }

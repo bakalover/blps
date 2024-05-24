@@ -28,9 +28,6 @@ public class Complaint {
     @JsonIgnoreProperties("hashedPasswd")
     private Image image;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JsonIgnoreProperties("hashedPasswd")
-    private User user;
+    @Column(name = "username", nullable = false)
+    private String username;
 }

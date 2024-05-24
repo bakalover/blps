@@ -1,63 +1,27 @@
+camunda:
+  bpm:
+    admin-user:
+      id: bakalover
+      password: bakalover
 server:
   port: 35080
 
 spring:
   kafka:
     bootstrap-servers: localhost:9092
-  jpa: # I hate Spring
-    properties:
-      hibernate:
-        hbm2ddl:
-          auto: create-drop
-  datasource:
-    album:
-      url: ${JDBC_URL}
-      username: ${PG_LOGIN}
-      password: ${PG_PASS}
-      driver-class-name: org.postgresql.Driver
-    comment:
-      url: ${JDBC_URL}
-      username: ${PG_LOGIN}
-      password: ${PG_PASS}
-      driver-class-name: org.postgresql.Driver
-    complaint:
-      url: ${JDBC_URL}
-      username: ${PG_LOGIN}
-      password: ${PG_PASS}
-      driver-class-name: org.postgresql.Driver
-    image:
-      url: ${JDBC_URL}
-      username: ${PG_LOGIN}
-      password: ${PG_PASS}
-      driver-class-name: org.postgresql.Driver
-    role:
-      url: ${JDBC_URL}
-      username: ${PG_LOGIN}
-      password: ${PG_PASS}
-      driver-class-name: org.postgresql.Driver
-    statistics:
-      url: ${JDBC_URL}
-      username: ${PG_LOGIN}
-      password: ${PG_PASS}
-      driver-class-name: org.postgresql.Driver
-    user:
-      url: ${JDBC_URL}
-      username: ${PG_LOGIN}
-      password: ${PG_PASS}
-      driver-class-name: org.postgresql.Driver
-
-hibernate:
-  dialect: org.hibernate.dialect.PostgreSQLDialect
-  show_sql: true
-  temp:
-    use_jdbc_metadata_defaults: false
-  transaction:
-    jta:
-      platform: org.hibernate.engine.transaction.jta.platform.internal.AtomikosJtaPlatform
-
-javax:
-  persistence:
-    transactionType: JTA
+  jpa:
+    generate-ddl: true
+    ddl-auto: create-drop
+  jta:
+    atomikos:
+      datasource:
+        unique-resource-name: postgres
+        xa-data-source-class-name: org.postgresql.xa.PGXADataSource
+        xa-properties:
+          url: ${JDBC_URL}
+          user: ${PG_LOGIN}
+          password: ${PG_PASS}
+        max-pool-size: 5
 
 logging:
   file:

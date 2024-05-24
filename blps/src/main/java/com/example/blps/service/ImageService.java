@@ -1,7 +1,11 @@
 package com.example.blps.service;
 
-import com.example.blps.kafka.KafkaSender;
-import com.example.blps.repo.*;
+//import com.example.blps.kafka.KafkaSender;
+
+import com.example.blps.repo.AlbumRepository;
+import com.example.blps.repo.CommentRepository;
+import com.example.blps.repo.ComplaintRepository;
+import com.example.blps.repo.ImageRepository;
 import com.example.blps.repo.entity.Album;
 import com.example.blps.repo.entity.Comment;
 import com.example.blps.repo.entity.Complaint;
@@ -11,15 +15,12 @@ import com.example.blps.repo.request.ComplaintBody;
 import lombok.NonNull;
 import org.hibernate.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
 import org.springframework.transaction.support.TransactionTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -34,27 +35,18 @@ public class ImageService {
     @Autowired
     private CommentRepository commentRepository;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private ComplaintRepository complaintRepository;
 
+//    @Autowired
+//    private KafkaSender kafkaSender;
+
     @Autowired
-    private KafkaSender kafkaSender;
+    @Qualifier("transactionTemplate")
+    private TransactionTemplate transactionTemplate;
 
-    private final TransactionTemplate transactionTemplate;
-
-
-    @SuppressWarnings("null")
-    @Autowired
-    public ImageService(PlatformTransactionManager transactionManager) {
-        this.transactionTemplate = new TransactionTemplate(transactionManager);
-        this.transactionTemplate.setTimeout(1);
-        this.transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);
-    }
-
-    public void addNewImage(MultipartFile file, @NonNull Long albumId, Boolean face)
+    public void addNewImage(String albumName, String imageName, Boolean face)
             throws TransactionException {
         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
 
@@ -62,11 +54,10 @@ public class ImageService {
             protected void doInTransactionWithoutResult(@SuppressWarnings("null") TransactionStatus status) {
                 try {
                     var newImage = new Image();
-                    var album = albumRepository.findById(albumId).orElseThrow();
+                    var album = albumRepository.findByName(albumName).orElseThrow();
 
                     newImage.setAlbum(album);
-                    newImage.setName(file.getOriginalFilename());
-                    newImage.setData(file.getBytes());
+                    newImage.setName(imageName);
                     newImage.setFace(face);
                     newImage.setVkLikes(0);
                     newImage.setOkLikes(0);
@@ -87,11 +78,8 @@ public class ImageService {
                     }
 
                     var id = savedImage.get().getId();
-                    kafkaSender.send(id, 0);    // VK
-                    kafkaSender.send(id, 1);    // OK
-                } catch (IOException e) {
-                    status.setRollbackOnly();
-                    throw new TransactionException("Cannot read image!\n");
+//                    kafkaSender.send(id, 0);    // VK
+//                    kafkaSender.send(id, 1);    // OK
                 } catch (NoSuchElementException e) {
                     status.setRollbackOnly();
                     throw new TransactionException("Album doesn't exist!\n");
@@ -118,7 +106,7 @@ public class ImageService {
         var dao = new Comment();
         dao.setImage(imageRepository.findById(comment.getPicId()).orElseThrow());
         dao.setText(comment.getText());
-        dao.setUser(userRepository.findById(comment.getUsername()).orElseThrow());
+        dao.setUsername(comment.getUsername());
         commentRepository.save(dao);
     }
 
@@ -130,7 +118,7 @@ public class ImageService {
         var complaint = new Complaint();
         complaint.setDescription(complaintBody.getDescription());
         complaint.setImage(imageRepository.findById(complaintBody.getPicId()).get());
-        complaint.setUser(userRepository.findByUsername(complaintBody.getUsername()).get());
+        complaint.setUsername(complaintBody.getUsername());
         complaintRepository.save(complaint);
     }
 
