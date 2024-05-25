@@ -1,0 +1,46 @@
+{
+  "components": [
+    {
+      "text": "# Запрос на блокировку",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1bbo8k0",
+        "columns": null
+      },
+      "id": "Field_1ccrlxx"
+    },
+    {
+      "label": "Кого блокируем?",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_063yqe0",
+        "columns": null
+      },
+      "id": "Field_103l9sw",
+      "key": "textarea_result",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Отправить на подтверждение",
+      "type": "button",
+      "layout": {
+        "row": "Row_034zewq",
+        "columns": null
+      },
+      "id": "Field_1u0mxbf"
+    }
+  ],
+  "type": "default",
+  "id": "Form_00nwymd",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

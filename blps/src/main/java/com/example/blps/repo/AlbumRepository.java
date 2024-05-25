@@ -12,4 +12,6 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
     Optional<Album> findByName(String name);
 
     List<Album> findAllByUsername(String username);
+
+    void deleteAllByUsername(String username);
 }

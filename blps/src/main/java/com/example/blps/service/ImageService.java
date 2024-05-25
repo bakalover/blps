@@ -11,7 +11,6 @@ import com.example.blps.repo.entity.Comment;
 import com.example.blps.repo.entity.Complaint;
 import com.example.blps.repo.entity.Image;
 import com.example.blps.repo.request.CommentBody;
-import com.example.blps.repo.request.ComplaintBody;
 import lombok.NonNull;
 import org.hibernate.TransactionException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,11 +113,11 @@ public class ImageService {
         return commentRepository.findByImage(imageRepository.findById(picId).orElseThrow());
     }
 
-    public void makeComplaint(ComplaintBody complaintBody) throws NoSuchElementException {
+    public void makeComplaint(Long picId, String username, String description) throws NoSuchElementException {
         var complaint = new Complaint();
-        complaint.setDescription(complaintBody.getDescription());
-        complaint.setImage(imageRepository.findById(complaintBody.getPicId()).get());
-        complaint.setUsername(complaintBody.getUsername());
+        complaint.setDescription(description);
+        complaint.setImage(imageRepository.findById(picId).get());
+        complaint.setUsername(username);
         complaintRepository.save(complaint);
     }
 

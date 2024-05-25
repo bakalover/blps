@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0vxdkcf" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.22.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.21.0">
+  <bpmn:collaboration id="Collaboration_117qaqr">
+    <bpmn:participant id="Participant_0bfy1ea" name="Strana Mam" processRef="MakeComplaint" />
+  </bpmn:collaboration>
+  <bpmn:process id="MakeComplaint" name="MakeComplaint" isExecutable="true" camunda:historyTimeToLive="1">
+    <bpmn:laneSet id="LaneSet_1no2t3z">
+      <bpmn:lane id="Lane_1t01p1k" name="Client">
+        <bpmn:flowNodeRef>Activity_0bab997</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1kxrixm</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_07kbrvu</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_1ow3s6z" name="Server">
+        <bpmn:flowNodeRef>StartEvent_1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0yshqc5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_1y8u9bs</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:userTask id="Activity_0bab997" name="Результат" camunda:formKey="camunda-forms:/forms/result.form">
+      <bpmn:incoming>Flow_1ojkw4i</bpmn:incoming>
+      <bpmn:outgoing>Flow_00zlw0w</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1qersar</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_1kxrixm" name="Сформировть жалобу" camunda:formKey="camunda-forms:/forms/make_complaint.form">
+      <bpmn:incoming>Flow_00zlw0w</bpmn:incoming>
+      <bpmn:outgoing>Flow_12fi6ko</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:userTask id="Activity_07kbrvu" name="Результат" camunda:formKey="camunda-forms:/forms/result.form">
+      <bpmn:incoming>Flow_1prk3il</bpmn:incoming>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Activity_0yshqc5" name="Выдача информации по изображениям" camunda:delegateExpression="#{imageFetcherDelegate}">
+      <bpmn:incoming>Flow_1qersar</bpmn:incoming>
+      <bpmn:outgoing>Flow_1ojkw4i</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1y8u9bs" name="Принять жалобу в обработку" camunda:delegateExpression="#{complaintProcessorDelegate}">
+      <bpmn:incoming>Flow_12fi6ko</bpmn:incoming>
+      <bpmn:outgoing>Flow_1prk3il</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1ojkw4i" sourceRef="Activity_0yshqc5" targetRef="Activity_0bab997" />
+    <bpmn:sequenceFlow id="Flow_00zlw0w" sourceRef="Activity_0bab997" targetRef="Activity_1kxrixm" />
+    <bpmn:sequenceFlow id="Flow_1qersar" sourceRef="StartEvent_1" targetRef="Activity_0yshqc5" />
+    <bpmn:sequenceFlow id="Flow_12fi6ko" sourceRef="Activity_1kxrixm" targetRef="Activity_1y8u9bs" />
+    <bpmn:sequenceFlow id="Flow_1prk3il" sourceRef="Activity_1y8u9bs" targetRef="Activity_07kbrvu" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_117qaqr">
+      <bpmndi:BPMNShape id="Participant_0bfy1ea_di" bpmnElement="Participant_0bfy1ea" isHorizontal="true">
+        <dc:Bounds x="129" y="80" width="671" height="430" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1t01p1k_di" bpmnElement="Lane_1t01p1k" isHorizontal="true">
+        <dc:Bounds x="159" y="80" width="641" height="234" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1ow3s6z_di" bpmnElement="Lane_1ow3s6z" isHorizontal="true">
+        <dc:Bounds x="159" y="314" width="641" height="196" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0bab997_di" bpmnElement="Activity_0bab997">
+        <dc:Bounds x="290" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="382" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ogqgvf_di" bpmnElement="Activity_1kxrixm">
+        <dc:Bounds x="450" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07kbrvu_di" bpmnElement="Activity_07kbrvu">
+        <dc:Bounds x="640" y="140" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1m81fkw_di" bpmnElement="Activity_0yshqc5">
+        <dc:Bounds x="290" y="360" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1y8u9bs_di" bpmnElement="Activity_1y8u9bs">
+        <dc:Bounds x="450" y="360" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1qersar_di" bpmnElement="Flow_1qersar">
+        <di:waypoint x="228" y="400" />
+        <di:waypoint x="290" y="400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12fi6ko_di" bpmnElement="Flow_12fi6ko">
+        <di:waypoint x="500" y="220" />
+        <di:waypoint x="500" y="360" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1prk3il_di" bpmnElement="Flow_1prk3il">
+        <di:waypoint x="550" y="400" />
+        <di:waypoint x="580" y="400" />
+        <di:waypoint x="580" y="180" />
+        <di:waypoint x="640" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ojkw4i_di" bpmnElement="Flow_1ojkw4i">
+        <di:waypoint x="340" y="360" />
+        <di:waypoint x="340" y="220" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_00zlw0w_di" bpmnElement="Flow_00zlw0w">
+        <di:waypoint x="390" y="180" />
+        <di:waypoint x="450" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

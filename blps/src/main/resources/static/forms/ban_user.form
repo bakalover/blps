@@ -1,0 +1,46 @@
+{
+  "components": [
+    {
+      "text": "# Блокировка пользователя",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_1y02rhx",
+        "columns": null
+      },
+      "id": "Field_0mg8vrh"
+    },
+    {
+      "label": "Кого уничтожаем?",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1h9znrt",
+        "columns": null
+      },
+      "id": "Field_1eu8t14",
+      "key": "username_to_ban",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "action": "submit",
+      "label": "Уничтожить",
+      "type": "button",
+      "layout": {
+        "row": "Row_0k8so2v",
+        "columns": null
+      },
+      "id": "Field_0r3vq6j"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0h96123",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}

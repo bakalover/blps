@@ -1,0 +1,69 @@
+{
+  "components": [
+    {
+      "text": "# Подача жалобы",
+      "label": "Text view",
+      "type": "text",
+      "layout": {
+        "row": "Row_00md7u7",
+        "columns": null
+      },
+      "id": "Field_11ky71t"
+    },
+    {
+      "label": "Индентификатор изображения",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1d6lhb4",
+        "columns": null
+      },
+      "id": "Field_09sq6gh",
+      "key": "pic_id",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Имя пользователя",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_131ylkz",
+        "columns": null
+      },
+      "id": "Field_1xhoku9",
+      "key": "username",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Описание",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1cujp58",
+        "columns": null
+      },
+      "id": "Field_0t2vvrt",
+      "key": "description"
+    },
+    {
+      "action": "submit",
+      "label": "Подать жалобу",
+      "type": "button",
+      "layout": {
+        "row": "Row_1jiktwt",
+        "columns": null
+      },
+      "id": "Field_1qmgzuu"
+    }
+  ],
+  "type": "default",
+  "id": "Form_0ilp11h",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
