@@ -18,7 +18,7 @@
         "columns": null
       },
       "id": "Field_103l9sw",
-      "key": "textarea_result",
+      "key": "textarea_ban_username",
       "validate": {
         "required": true
       }

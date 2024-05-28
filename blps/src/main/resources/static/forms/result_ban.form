@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "label": "To ban",
+      "type": "textarea",
+      "layout": {
+        "row": "Row_024uggq",
+        "columns": null
+      },
+      "id": "Field_1yct6x8",
+      "key": "textarea_ban_username"
+    }
+  ],
+  "type": "default",
+  "id": "Form_1cux5lh",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.22.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.21.0",
+  "schemaVersion": 16
+}
